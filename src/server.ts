@@ -1,5 +1,10 @@
-import { ApolloServer, gql } from 'apollo-server';
-import db from './config/db_config';
+const { ApolloServer, gql } = require('apollo-server');
+const db = require('./config/db_config');
+
+db.connect((err: any) => {
+  if (err) throw err;
+  console.log('Connecté à la base de données MySQL');
+});
 
 const typeDefs = gql`
   # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
@@ -39,6 +44,6 @@ const resolvers = {
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url }: any) => {
   console.log(`🚀  Server ready at ${url}`);
 });
