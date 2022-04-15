@@ -11,7 +11,7 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
   if (err) throw err;
-  console.log('Connecté à la base de données MySQL dotenv');
+  console.log('Connecté à la base de données');
 });
 
 module.exports = db;
