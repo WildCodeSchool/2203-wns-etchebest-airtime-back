@@ -1,9 +1,8 @@
 const { ApolloServer, gql } = require('apollo-server');
-const { UserResolver } = require('./resolvers/user.resolver');
+const userResolvers = require('./resolvers/user.resolver');
+const ticketResolver = require('./resolvers/ticket.resolver');
 
-const resolver = {
-  resolvers: [UserResolver],
-}
+const resolvers = [userResolvers, ticketResolver];
 
 const typeDefs = gql`
 
@@ -16,14 +15,24 @@ const typeDefs = gql`
     role: String
   }
 
+  type Ticket {
+    id: Int
+    title: String
+    comment: String
+    estimated_time: Int
+    spent_time_minutes: Int
+    status: String
+    user_id: String
+    project_id: Int
+  }
+
   type Query {
     getAllUsers: [User]
+    getAllTickets: [Ticket]
   }
 `;
 
-console.log(UserResolver)
-
-const server = new ApolloServer({ typeDefs, resolver });
+const server = new ApolloServer({ typeDefs, resolvers });
 
 server.listen().then(({ url }: any) => {
   console.log(`🚀  Server ready at ${url}`);

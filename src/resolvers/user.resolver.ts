@@ -1,10 +1,7 @@
 const UserModel = require('../models/user.model');
 
-export const resolvers = {
+module.exports = {
   Query: {
-    getAllUsers: async () => {
-        console.log('je rentre')
-        return await UserModel.getAllUsers()
-    },
+    getAllUsers: async () => await UserModel.findAllUsers(),
   },
 };
