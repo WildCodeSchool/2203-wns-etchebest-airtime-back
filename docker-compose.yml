@@ -3,9 +3,10 @@ services:
         image: mysql
         command: --default-authentication-plugin=mysql_native_password
         restart: always
+        env_file: ./.env
         environment: 
-            MYSQL_ROOT_PASSWORD: Edknb67100&* 
-            MYSQL_DATABASE: airtime
+            MYSQL_ROOT_PASSWORD: $DB_PASSWORD 
+            MYSQL_DATABASE: $DB_NAME
         healthcheck:
             test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
             timeout: 20s
@@ -20,12 +21,13 @@ services:
         restart: unless-stopped
         ports:
           - 4000:4000
+        env_file: ./.env
         environment:
           - DB_HOST=db
-          - DB_USER=root
-          - DB_PASSWORD=Edknb67100&*
-          - DB_NAME=airtime
-          - DB_PORT=3306
+          - DB_USER=$DB_USER
+          - DB_PASSWORD=$DB_PASSWORD
+          - DB_NAME=$DB_NAME
+          - DB_PORT=$DB_PORT
         # healthcheck:
         #     test: ["CMD-SHELL", "curl -f http://localhost:4000/ || exit 1"]
         #     timeout: 20s
