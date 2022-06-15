@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "ts-node-dev src/server.ts"
+    "start": "ts-node src/server.ts"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "dotenv": "^16.0.0",
     "graphql": "^16.3.0",
     "mysql2": "^2.3.3",
+    "ts-node": "^10.8.1",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.3"
   },

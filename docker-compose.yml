@@ -1,0 +1,48 @@
+services: 
+    db:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        env_file: ./.env
+        environment: 
+            MYSQL_ROOT_PASSWORD: $DB_PASSWORD 
+            MYSQL_DATABASE: $DB_NAME
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            timeout: 20s
+            retries: 10
+        volumes: 
+            - ./init:/docker-entrypoint-initdb.d
+    server:
+        depends_on:
+          db:
+            condition: service_healthy
+        build: ./
+        restart: unless-stopped
+        ports:
+          - 4000:4000
+        env_file: ./.env
+        environment:
+          - DB_HOST=db
+          - DB_USER=$DB_USER
+          - DB_PASSWORD=$DB_PASSWORD
+          - DB_NAME=$DB_NAME
+          - DB_PORT=$DB_PORT
+        # healthcheck:
+        #     test: ["CMD-SHELL", "curl -f http://localhost:4000/ || exit 1"]
+        #     timeout: 20s
+        #     retries: 10
+        stdin_open: true
+        tty: true
+    client:
+      depends_on:
+        - server
+          # server:
+          #   condition: service_healthy
+      build: ../2203-wns-etchebest-airtime-front/
+      ports:
+        - 3000:3000
+      environment:
+        CHOKIDAR_USEPOLLING: "true"
+      volumes:
+      - ../2203-wns-etchebest-airtime-front:/airtime/
