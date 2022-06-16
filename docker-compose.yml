@@ -39,4 +39,4 @@ services:
       environment:
         CHOKIDAR_USEPOLLING: "true"
       volumes:
-        - ../2203-wns-etchebest-airtime-front:/airtime/src
+        - ../2203-wns-etchebest-airtime-front/src:/airtime/src
