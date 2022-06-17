@@ -1,7 +1,11 @@
 name: CD-bryan
 
 on:
+<<<<<<< HEAD
   pull_request:
+=======
+  pull-request:
+>>>>>>> cd for pr
     branches:
       - "main"
 
