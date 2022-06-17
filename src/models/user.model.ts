@@ -58,7 +58,6 @@ const updateUser = async ({
   id: number;
   newAttributes: IUser;
 }) => {
-  console.log(newAttributes);
   await database
     .promise()
     .query('UPDATE user SET ? WHERE id = ?', [newAttributes, id]);

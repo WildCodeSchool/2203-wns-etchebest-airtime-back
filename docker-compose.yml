@@ -12,7 +12,7 @@ services:
             timeout: 20s
             retries: 10
         volumes: 
-            - ./init:/docker-entrypoint-initdb.d
+            - ./init/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
     server:
         depends_on:
           db:
@@ -28,17 +28,11 @@ services:
           - DB_PASSWORD=$DB_PASSWORD
           - DB_NAME=$DB_NAME
           - DB_PORT=$DB_PORT
-        # healthcheck:
-        #     test: ["CMD-SHELL", "curl -f http://localhost:4000/ || exit 1"]
-        #     timeout: 20s
-        #     retries: 10
         stdin_open: true
         tty: true
     client:
       depends_on:
         - server
-          # server:
-          #   condition: service_healthy
       build: ../2203-wns-etchebest-airtime-front/
       ports:
         - 3000:3000

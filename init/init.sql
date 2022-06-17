@@ -1,4 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS `airtime` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `airtime`;
 USE `airtime` ;
 
 CREATE TABLE IF NOT EXISTS `airtime`.`project` (
