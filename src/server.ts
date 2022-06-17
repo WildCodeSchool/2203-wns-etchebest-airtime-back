@@ -98,7 +98,7 @@ const typeDefs = gql`
 `;
 
 const server = new ApolloServer({ typeDefs, resolvers });
-
 server.listen().then(({ url }: any) => {
+  // eslint-disable-next-line no-console
   console.log(`🚀  Server ready at ${url}`);
 });

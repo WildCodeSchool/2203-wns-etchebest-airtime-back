@@ -11,7 +11,7 @@ services:
             timeout: 20s
             retries: 10
         volumes: 
-            - ./init:/docker-entrypoint-initdb.d
+            - ./init/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
     server:
         depends_on:
           db:
@@ -22,17 +22,15 @@ services:
           - 4000:4000
         environment:
           - DB_HOST=db
-          - DB_USER=root
-          - DB_PASSWORD=Edknb67100&*
-          - DB_NAME=airtime
-          - DB_PORT=3306
+          - DB_USER=$DB_USER
+          - DB_PASSWORD=$DB_PASSWORD
+          - DB_NAME=$DB_NAME
+          - DB_PORT=$DB_PORT
         stdin_open: true
         tty: true
     client:
       depends_on:
         - server
-          # server:
-          #   condition: service_healthy
       build: ../2203-wns-etchebest-airtime-front/
       ports:
         - 3000:3000
