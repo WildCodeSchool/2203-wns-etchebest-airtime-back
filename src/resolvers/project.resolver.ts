@@ -5,9 +5,8 @@ module.exports = {
     getAllProjects: async () => await ProjectModel.findAllProjects(),
   },
   Mutation: {
-    createProject: async (_: any, args: any) => {
-      return await ProjectModel.createProject(args)
-    },
+    createProject: async (_: any, args: any) =>
+      await ProjectModel.createProject(args),
     deleteProject: async (_: any, args: any) =>
       await ProjectModel.deleteProject(args),
     updateProject: async (_: any, args: any) =>
