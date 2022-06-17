@@ -37,7 +37,7 @@ VALUES(1,'airtime: 1', 'desc: 1', 'photo: 1');
 -- Table `airtime`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `airtime`.`user` (
-  `id` BINARY(16) NOT NULL,
+  `id` VARCHAR(36) NOT NULL,
   `firstname` VARCHAR(255) NOT NULL,
   `lastname` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
@@ -50,7 +50,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 INSERT INTO airtime.user(id, firstname, lastname, email, password, role)
-VALUES(UUID_TO_BIN('aef4f44f-bbef-11ec-b561-309c23902d82'),'John', 'Doe', 'johnDoe@hurkan.com', 'bbbhy', 'admin');
+VALUES('aef4f44f-bbef-11ec-b561-309c23902d82','John', 'Doe', 'johnDoe@hurkan.com', 'bbbhy', 'admin');
 
 
 -- -----------------------------------------------------
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `airtime`.`ticket` (
   `estimated_time` INT NOT NULL,
   `spent_time_minutes` INT NULL DEFAULT NULL,
   `status` ENUM('to do', 'in progress', 'review', 'completed') NOT NULL,
-  `user_id` BINARY(16) NOT NULL,
+  `user_id` VARCHAR(36),
   `project_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_user_id_idx` (`user_id` ASC) VISIBLE,
@@ -73,34 +73,39 @@ CREATE TABLE IF NOT EXISTS `airtime`.`ticket` (
     REFERENCES `airtime`.`project` (`id`),
   CONSTRAINT `fk_ticket_user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `airtime`.`user` (`id`))
+    REFERENCES `airtime`.`user` (`id`)
+    )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 INSERT INTO airtime.ticket(id, title, comment, estimated_time, spent_time_minutes, status, user_id, project_id)
-VALUES(1,'ticket: 1', 'comment: 1', 1, 2, 'to do', UUID_TO_BIN('aef4f44f-bbef-11ec-b561-309c23902d82'), 1);
+VALUES(1,'ticket: 1', 'comment: 1', 1, 2, 'to do', 'aef4f44f-bbef-11ec-b561-309c23902d82', 1);
 
 
 -- -----------------------------------------------------
 -- Table `airtime`.`user_projects`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `airtime`.`user_projects` (
-  `user_id` BINARY(16) NOT NULL,
+  `user_id` VARCHAR(36) NOT NULL,
   `project_id` INT NOT NULL,
   PRIMARY KEY (`user_id`, `project_id`),
   UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE,
   UNIQUE INDEX `project_id_UNIQUE` (`project_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_id`
     FOREIGN KEY (`project_id`)
-    REFERENCES `airtime`.`project` (`id`),
+    REFERENCES `airtime`.`project` (`id`)
+    ON DELETE CASCADE,
   CONSTRAINT `fk_user_id`
     FOREIGN KEY (`user_id`)
-    REFERENCES `airtime`.`user` (`id`))
+    REFERENCES `airtime`.`user` (`id`)
+    ON DELETE CASCADE
+    )
+
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
 INSERT INTO airtime.user_projects(user_id, project_id)
-VALUES(UUID_TO_BIN('aef4f44f-bbef-11ec-b561-309c23902d82'), 1);
+VALUES('aef4f44f-bbef-11ec-b561-309c23902d82', 1);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

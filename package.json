@@ -2,12 +2,12 @@
   "name": "airtime",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "ts-node-dev src/server.ts"
+    "start": "ts-node src/server.ts",
+    "lint": "eslint -c .eslintrc.js tsconfig.json src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -25,17 +25,20 @@
     "dotenv": "^16.0.0",
     "graphql": "^16.3.0",
     "mysql2": "^2.3.3",
+    "ts-node": "^10.8.1",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.3"
   },
   "devDependencies": {
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-airbnb-typescript": "^14.0.0",
+    "eslint-config-airbnb-typescript": "^14.0.2",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.3.2"
   }
 }
