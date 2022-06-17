@@ -5,17 +5,14 @@ module.exports = {
     getAllTickets: async () => await TicketModel.findAllTickets(),
   },
   Mutation: {
-    createTicket: async (_: any, args: any) => {
-      return await TicketModel.createTicket(args);
-    },
-    deleteTicket: async (_: any, args: any) => {
-      return await TicketModel.deleteTicket(args);
-    },
-    updateTicket: async (_: any, args: any) => {
-      return await TicketModel.updateTicket({
+    createTicket: async (_: any, args: any) =>
+      await TicketModel.createTicket(args),
+    deleteTicket: async (_: any, args: any) =>
+      await TicketModel.deleteTicket(args),
+    updateTicket: async (_: any, args: any) =>
+      await TicketModel.updateTicket({
         id: args.id,
         newAttributes: args,
-      });
-    },
+      }),
   },
 };

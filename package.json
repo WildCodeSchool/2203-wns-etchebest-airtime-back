@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "ts-node src/server.ts"
+    "start": "ts-node src/server.ts",
+    "lint": "eslint -c .eslintrc.js tsconfig.json src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -34,9 +35,10 @@
     "@typescript-eslint/parser": "^4.29.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-config-airbnb-typescript": "^14.0.0",
+    "eslint-config-airbnb-typescript": "^14.0.2",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.3.2"
   }
 }
