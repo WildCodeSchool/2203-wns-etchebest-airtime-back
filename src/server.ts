@@ -2,6 +2,7 @@ const { ApolloServer, gql } = require('apollo-server');
 const userResolvers = require('./resolvers/user.resolver');
 const ticketResolver = require('./resolvers/ticket.resolver');
 const projectResolver = require('./resolvers/project.resolver');
+const { checkToken } = require('./models/user.model');
 
 const resolvers = [userResolvers, ticketResolver, projectResolver];
 
@@ -13,6 +14,10 @@ const typeDefs = gql`
     email: String
     password: String
     role: String
+  }
+
+  extend type User {
+    token: String
   }
 
   type Ticket {
@@ -49,7 +54,9 @@ const typeDefs = gql`
       password: String
       role: String
     ): User
+
     deleteUser(id: String): User
+
     updateUser(
       id: String
       firstname: String
@@ -58,6 +65,7 @@ const typeDefs = gql`
       password: String
       role: String
     ): User
+
     createTicket(
       title: String
       comment: String
@@ -67,7 +75,9 @@ const typeDefs = gql`
       user_id: String
       project_id: Int
     ): Ticket
+
     deleteTicket(id: Int): Ticket
+
     updateTicket(
       id: Int
       title: String
@@ -78,6 +88,7 @@ const typeDefs = gql`
       user_id: String
       project_id: Int
     ): Ticket
+
     createProject(
       name: String
       description: String
@@ -85,7 +96,9 @@ const typeDefs = gql`
       start_time: String
       end_time: String
     ): Project
+
     deleteProject(id: Int): Project
+
     updateProject(
       id: Int
       name: String
@@ -94,10 +107,26 @@ const typeDefs = gql`
       start_time: String
       end_time: String
     ): Project
+
+    signIn(email: String, password: String): User
   }
 `;
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }: any) => {
+    const token = req.headers.authorization;
+    if (!token) return null;
+    try {
+      const payload = checkToken(token);
+      return { authenticatedUserEmail: payload?.email };
+    } catch (err) {
+      return err;
+    }
+  },
+});
+
 server.listen().then(({ url }: any) => {
   // eslint-disable-next-line no-console
   console.log(`🚀  Server ready at ${url}`);
