@@ -1,4 +1,4 @@
-export const database = require('../config/db_config');
+import database from '../config/db_config';
 
 interface ITicket {
   id?: number;
@@ -39,7 +39,7 @@ const createTicket = async ({
         project_id,
       ]
     );
-  const res = await database
+  const res:any = await database
     .promise()
     .query('SELECT * FROM ticket WHERE id = ?', [result?.[0]?.insertId]);
   return res[0][0];
@@ -63,7 +63,7 @@ const updateTicket = async ({
     .promise()
     .query('UPDATE ticket SET ? WHERE id = ?', [newAttributes, id]);
 
-  const res = await database
+  const res:any = await database
     .promise()
     .query('SELECT * FROM ticket WHERE id = ?', [id]);
   return res[0][0];
