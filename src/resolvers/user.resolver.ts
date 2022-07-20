@@ -15,6 +15,7 @@ module.exports = {
     },
 
     updateUser: async (_: any, args: any, context: any) => {
+      console.log("🚀 ~ args", args)
       if (!context.user) return new ApolloError('You must be authenticated');
       return UserModel.updateUser({
         id: args.id,

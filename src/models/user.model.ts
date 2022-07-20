@@ -1,7 +1,8 @@
-const { hashPassword, generateToken } = require('../helpers/index');
-import database from '../config/db_config';
 import bcrypt from 'bcryptjs';
-
+import { FieldPacket } from 'mysql2';
+import { IUserRowData } from 'userRowData';
+import database from '../config/db_config';
+import { generateToken, hashPassword } from '../helpers';
 
 interface IUser {
   id?: string;
@@ -31,7 +32,7 @@ const createUser = async ({
       `INSERT INTO user (id, firstname, lastname, email, password, role) VALUES (UUID(), ?, ?, ?, ?, ?)`,
       [firstname, lastname, email, hashedPassword, role]
     );
-  const res:any = await database
+  const res: [IUserRowData[], FieldPacket[]] = await database
     .promise()
     .query('SELECT * FROM user WHERE email = ?', [email]);
 
@@ -39,17 +40,17 @@ const createUser = async ({
 };
 
 const getUserByEmail = async ({ email }: { email: string }) => {
-  const res:any = await database
+  const res: [IUserRowData[], FieldPacket[]] = await database
     .promise()
     .query('SELECT * FROM user WHERE email = ?', [email]);
   return res[0][0];
 };
 
 const deleteUser = async ({ id }: { id: string }) => {
-  const res:any = await database
+  const res: [IUserRowData[], FieldPacket[]] = await database
     .promise()
     .query('SELECT * FROM user WHERE id = ?', [id]);
-  const resTicket:any = await database
+  const resTicket: any = await database
     .promise()
     .query('SELECT * FROM ticket WHERE user_id = ?', [id]);
   if (resTicket[0].length) {
@@ -73,14 +74,14 @@ const updateUser = async ({
     .promise()
     .query('UPDATE user SET ? WHERE id = ?', [newAttributes, id]);
 
-  const res:any = await database
+  const res: [IUserRowData[], FieldPacket[]] = await database
     .promise()
     .query('SELECT * FROM user WHERE id = ?', [id]);
   return res[0][0];
 };
 
 const login = async ({ email, password }: IUser) => {
-  const res:any = await database
+  const res: [IUserRowData[], FieldPacket[]] = await database
     .promise()
     .query('SELECT * FROM user WHERE email = ?', [email]);
 
