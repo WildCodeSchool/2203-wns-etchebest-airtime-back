@@ -13,6 +13,7 @@ services:
             retries: 10
         volumes: 
             - ./init/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+            - dbdata:/var/lib/mysql
     server:
         depends_on:
           db:
@@ -40,3 +41,5 @@ services:
         CHOKIDAR_USEPOLLING: "true"
       volumes:
         - ../2203-wns-etchebest-airtime-front/src:/airtime/src
+volumes:
+    dbdata:
