@@ -4,9 +4,10 @@ const { ApolloServer, gql } = require('apollo-server');
 const userResolvers = require('./resolvers/user.resolver');
 const ticketResolver = require('./resolvers/ticket.resolver');
 const projectResolver = require('./resolvers/project.resolver');
+const userProjectResolver = require('./resolvers/userProject.resolver');
 const { checkToken } = require('./helpers/index');
 
-const resolvers = [userResolvers, ticketResolver, projectResolver];
+const resolvers = [userResolvers, ticketResolver, projectResolver, userProjectResolver];
 
 const typeDefs = gql`
   type User {
@@ -40,6 +41,11 @@ const typeDefs = gql`
     photography: String
     start_time: String
     end_time: String
+  }
+
+  type UserProject {
+    user_id: String
+    project_id: Int
   }
 
   type Query {
@@ -118,6 +124,10 @@ const typeDefs = gql`
       password: String
       role: String
     ): User
+
+    attributeProject(userId: String, projectId: Int): UserProject
+    updateUserProject(user_id: String, project_id: Int): UserProject
+    deleteUserFromProject(userId: String, projectId: Int): UserProject
   }
 `;
 

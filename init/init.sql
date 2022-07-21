@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `airtime`.`user` (
   `lastname` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
-  `role` ENUM('authentified visitor', 'admin', 'developer', 'project manager') NOT NULL,
+  `role` ENUM('authentified visitor', 'admin', 'developer', 'project manager') DEFAULT 'authentified visitor',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);

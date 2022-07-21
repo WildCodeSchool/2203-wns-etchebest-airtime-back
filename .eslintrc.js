@@ -8,7 +8,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
-    project: '2203-wns-etchebest-airtime-back/tsconfig.json',
+    project: './tsconfig.json',
     tsconfigRootDir: './',
   },
   plugins: ['@typescript-eslint', 'prettier'],
