@@ -1,10 +1,13 @@
+import { AuthenticationError } from 'apollo-server';
+
 const { ApolloServer, gql } = require('apollo-server');
 const userResolvers = require('./resolvers/user.resolver');
 const ticketResolver = require('./resolvers/ticket.resolver');
 const projectResolver = require('./resolvers/project.resolver');
-const { checkToken } = require('./models/user.model');
+const userProjectResolver = require('./resolvers/userProject.resolver');
+const { checkToken } = require('./helpers/index');
 
-const resolvers = [userResolvers, ticketResolver, projectResolver];
+const resolvers = [userResolvers, ticketResolver, projectResolver, userProjectResolver];
 
 const typeDefs = gql`
   type User {
@@ -38,6 +41,11 @@ const typeDefs = gql`
     photography: String
     start_time: String
     end_time: String
+  }
+
+  type UserProject {
+    user_id: String
+    project_id: Int
   }
 
   type Query {
@@ -109,6 +117,17 @@ const typeDefs = gql`
     ): Project
 
     signIn(email: String, password: String): User
+    signUp(
+      firstname: String
+      lastname: String
+      email: String
+      password: String
+      role: String
+    ): User
+
+    attributeProject(userId: String, projectId: Int): UserProject
+    updateUserProject(user_id: String, project_id: Int): UserProject
+    deleteUserFromProject(userId: String, projectId: Int): UserProject
   }
 `;
 
@@ -120,7 +139,10 @@ const server = new ApolloServer({
     if (!token) return null;
     try {
       const payload = checkToken(token);
-      return { authenticatedUserEmail: payload?.email };
+      const user = payload?.email;
+      if (!user) throw new AuthenticationError('You must be logged in');
+
+      return { user, authenticatedUserEmail: payload?.email };
     } catch (err) {
       return err;
     }
